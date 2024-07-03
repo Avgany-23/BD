@@ -122,7 +122,8 @@ class ControlClientsDB:
 
 
     def delete_info(self, id, phone=None):
-        """Функция для удаления всех данных о пользователе или только о его номере телефона по его id"""
+        """Функция для удаления всех данных о пользователе или только о его номере телефона по его id
+        Удаляет все данные, если введён только id, удаляет только номер телефона, если введён id и phone"""
         conn = psycopg2.connect(database=self.dbname, user=self.user, password=self.password, host=self.host,
                                 port=self.port)
         with conn.cursor() as cur:
@@ -177,25 +178,25 @@ class ControlClientsDB:
             try:
                 search_client(*key)
             except:
-                print('Неправильно указана информация при поиске клиента')
+                print('??? Информации о клиенте не нашлось')
         conn.close()
 
 
 
-a = ControlClientsDB('postgres', 'postgres', '1234')
+BD = ControlClientsDB('postgres', 'postgres', '1234')
 
-a.add_new_client('Valera', 'Ivanov')
-a.add_new_client('DON', 'Glebov')
+BD.add_new_client('Valera', 'Ivanov')
+BD.add_new_client('DON', 'Glebov')
 
-a.add_phone_client('+8-920-409-34-23', name='DON', surname='Glebov')
-a.add_phone_client('+8-920-409-34-23', id=1)
-a.add_phone_client('+8-000-000-34-23', id=1)
-a.add_phone_client('+8-920-409-34-23', name='Victor')
-a.add_phone_client('+000-920-409-34-23', id=1)
+BD.add_phone_client('+8-920-409-34-23', name='DON', surname='Glebov')
+BD.add_phone_client('+8-920-409-34-23', id=1)
+BD.add_phone_client('+8-000-000-34-23', id=1)
+BD.add_phone_client('+8-920-409-34-23', name='Victor')
+BD.add_phone_client('+000-920-409-34-23', id=1)
 
-a.update_data_client(2, 'Dmitry', 'Voronov', 'amdf@gmail.com', '+8-902-391-23-54')
+BD.update_data_client(2, 'Dmitry', 'Voronov', 'amdf@gmail.com', '+8-902-391-23-54')
 
-a.delete_info(1, '+8-000-000-34-23')
+BD.delete_info(1, '+8-000-000-34-23')
 
-a.search_info_client(phone='+8-920-409-34-23')
-a.search_info_client(name='Victor')
+BD.search_info_client(phone='+8-920-409-34-23')
+BD.search_info_client(name='Victor')
